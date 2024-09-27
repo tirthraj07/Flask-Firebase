@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+
+    <p>You have successfully logged in</p>
+
+    <button onclick="logout()">Logout</button>
+
+    <script>
+
+        async function logout(){
+            try{
+                const response = await fetch('/logout',{
+                    method:'POST'
+                })
+                const data = await response.json()
+                if(data.status=='success'){
+                    window.location.reload();
+                }
+                else if(data.status=='error'){
+                    throw new Error(data.message);
+                }
+            }
+            catch(error){
+                console.log(error)
+                alert(error)
+            }
+        }
+
+
+    </script>
+
+</body>
+</html>

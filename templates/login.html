@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <form id="formLogin">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="Enter email address" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <br>
+
+    <a href="/signup">Go to signup</a>
+    
+    <script>
+
+        const form = document.getElementById('formLogin');
+        form.addEventListener('submit', async (e)=>{
+            e.preventDefault();
+
+            const email = document.getElementById('email').value
+            const password = document.getElementById('password').value
+
+            const jsonBody = {
+                email : email,
+                password: password
+            }
+            try{
+                const response = await fetch('/login', {
+                    method:'POST',
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                    body: JSON.stringify(jsonBody)
+                })
+
+                const data = await response.json();
+
+                if(data.status=='error'){
+                    throw new Error(data.message);
+                }
+
+                else if(data.status=='success'){
+                    alert('You have logged in successfully')
+                    window.location.href = '/';
+                }
+
+            }
+            catch(error){
+                console.error(error);
+                alert(error);
+            }
+        })
+
+
+    </script>
+
+</body>
+</html>
